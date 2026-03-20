@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Finexa</title>
+    <link rel="manifest" href="manifest.json">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
         * {
@@ -2335,7 +2336,7 @@
         function delCat(c) { setCats(getCats().filter(x => x !== c)); populateCats(); renderSettings() }
         function expData() { const data = { tx: getTx(), bud: getBud(), goals: getGoals(), cats: getCats() }; const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'finexa.json'; a.click() }
         function impData(e) { const file = e.target.files[0]; if (!file) return; const r = new FileReader(); r.onload = ev => { try { const d = JSON.parse(ev.target.result); if (d.tx) setTx(d.tx); if (d.bud) setBud(d.bud); if (d.goals) setGoals(d.goals); if (d.cats) setCats(d.cats); alert('Imported!'); location.reload() } catch (e) { alert('Invalid file') } }; r.readAsText(file) }
-        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js') }
+        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js').catch(() => { }); }
         init();
     </script>
 </body>
